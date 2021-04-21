@@ -1,26 +1,23 @@
 ﻿using Avanade.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Avanade.Controllers
 {
     class RobotController
     {
-        public Robot Create(int id)
+        private readonly int MaxSecuencyLenght = 100;
+        private readonly List<char> ValidOrientationList = new() { 'n', 's', 'w', 'e' };
+        private readonly List<char> ValidSecuencyList = new() { 'l', 'r', 'f' };
+        public Robot Create(List<Robot> robots)
         {
             Console.Clear();
             Robot robot = new();
-            Coordinates coordinates = new();
-            robot.Coordinate = coordinates;
-            robot.Id = id;
-
+            WriteId(robots, robot);
             WriteCoordinates(robot);
-
-            Console.WriteLine("Introduzca la secuencia");
-            robot.Secuency = Console.ReadLine();
-
-            Console.WriteLine("Introduzca la Orientación");
-            robot.Orientation = Console.ReadLine();
+            WriteSecuency(robot);
+            WriteOrientation(robot);
 
             robot.Lost = false;
 
@@ -69,16 +66,93 @@ namespace Avanade.Controllers
             }
         }
 
+        public void WriteId(List<Robot> robots, Robot robot)
+        {
+            if (robots.Count != 0)
+            {
+                robot.Id = robots.Last().Id + 1;
+            }
+            else
+            {
+                robot.Id = 0;
+            }
+        }
+
         public void WriteCoordinates(Robot robot)
         {
             Console.Clear();
-            Console.WriteLine("Introduzca sus coordenadas ( deben ser un números entre 0 y 50");
+            Coordinates coordinates = new();
+            robot.Coordinate = coordinates;
 
-            Console.WriteLine("Introduzca coordenada X");
-            robot.Coordinate.X = int.Parse(Console.ReadLine());
+            Console.WriteLine("Introduzca coordenada X (deben ser un números entre 0 y 50)");
+            int x = int.Parse(Console.ReadLine());
+            while (x < 0 || x > 50)
+            {
+                Console.Clear();
+                Console.WriteLine("Introduzca coordenada X (deben ser un números entre 0 y 50)");
+                x = int.Parse(Console.ReadLine());
+            }
 
-            Console.WriteLine("Introduzca coordenada Y");
-            robot.Coordinate.Y = int.Parse(Console.ReadLine());
+            robot.Coordinate.X = x;
+
+
+            Console.WriteLine("Introduzca coordenada Y (deben ser un números entre 0 y 50)");
+            int y = int.Parse(Console.ReadLine());
+            while (y < 0 || y > 50)
+            {
+                Console.Clear();
+                Console.WriteLine("Introduzca coordenada Y (deben ser un números entre 0 y 50)");
+                y = int.Parse(Console.ReadLine());
+            }
+
+            robot.Coordinate.Y = y;
+        }
+
+        public void WriteSecuency(Robot robot)
+        {
+            Console.Clear();
+
+            Console.WriteLine("Introduzca la secuencia " +
+                "(la secuencia es un string formado unicamente por" +
+                " las letras \"L \"  \"R \"  \"F \", debe ser menor a 100 caracteres");
+
+            string secuency = Console.ReadLine().ToLower();
+
+            if (secuency.Length > MaxSecuencyLenght)
+            {
+                WriteSecuency(robot);
+            }
+
+            foreach (Char character in secuency)
+            {
+                if (!ValidSecuencyList.Contains(character))
+                {
+                    WriteSecuency(robot);
+                }
+            }
+
+            robot.Secuency = secuency;
+        }
+
+        public void WriteOrientation(Robot robot)
+        {
+            Console.Clear();
+            Console.WriteLine("Introduzca la Orientación " +
+                "(La orientación esta formada por 1 carácter \"N\"  \"S\"  \"E\"  \"W\" )");
+
+            string orientation = Console.ReadLine().ToLower();
+
+            if (orientation.Length > 1)
+            {
+                WriteOrientation(robot);
+            }
+
+            if (!ValidOrientationList.Contains(char.Parse(orientation)))
+            {
+                WriteOrientation(robot);
+            }
+
+            robot.Orientation = orientation;
         }
     }
 }

@@ -49,11 +49,11 @@ namespace Avanade.Controllers
             Console.Clear();
             RobotController robot = new();
             Console.WriteLine("Elija una opción");
-            Console.WriteLine("\t1 - Instrucciones");
-            Console.WriteLine("\t2 - Crear robot");
-            Console.WriteLine("\t3 - Eliminar robot");
-            Console.WriteLine("\t4 - Editar robot");
-            Console.WriteLine("\t5 - Listado de robots");
+            //Console.WriteLine("\t1 - Instrucciones");
+            Console.WriteLine("\t1 - Crear robot");
+            Console.WriteLine("\t2 - Eliminar robot");
+            Console.WriteLine("\t3 - Editar robot");
+            Console.WriteLine("\t4 - Listado de robots");
             Console.WriteLine("\t0 - Volver al menú principal");
 
             switch (Console.ReadLine())
@@ -61,21 +61,21 @@ namespace Avanade.Controllers
                 case "0":
                     MenuPrincipal();
                     break;
+                //case "1":
+                //    LeerInstruccionesRobots();
+                //    VolverMenuRobots();
+                //    break;
                 case "1":
-                    LeerInstruccionesRobots();
-                    VolverMenuRobots();
+                    robots.Add(robot.Create(robots));
+                    MenuRobots();
                     break;
                 case "2":
-                    robots.Add(robot.Create(robots.Count));
-                    MenuRobots();
+                    Console.WriteLine("Aun no implementado");
                     break;
                 case "3":
                     Console.WriteLine("Aun no implementado");
                     break;
                 case "4":
-                    Console.WriteLine("Aun no implementado");
-                    break;
-                case "5":
                     robot.RobotsList(robots);
                     VolverMenuRobots();
                     break;
