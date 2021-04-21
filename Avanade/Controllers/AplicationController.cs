@@ -112,13 +112,12 @@ namespace Avanade.Controllers
             Console.WriteLine("Si selecciona la opción \"Menú Robots\" podrá acceder a otro menú" +
                 " donde gestionar a los robots.");
 
-            Console.WriteLine("Si selecciona la opción \"Comenzar secuencias\" los robots " +
-                "comenzaran a moverse, en función de los movimientos establecidos para cada robot." +
-                " Para mas información sobre las secuencias acceda a las instrucciones de la" +
-                " opción \"Menú robot\".");
+            Console.WriteLine("Si selecciona la opción \"Comenzar secuencias\" " +
+                "los robots comenzaran a moverse, en función de los movimientos" +
+                " establecidos para cada robot.");
 
-            Console.WriteLine("Si selecciona la opción \"Salir\" saldrá de la aplicación y perderá" +
-                " todos los datos introducidos.");
+            Console.WriteLine("Si selecciona la opción \"Salir\" saldrá de la aplicación y " +
+                "perderá todos los datos introducidos.");
         }
 
         public void LeerInstruccionesRobots()

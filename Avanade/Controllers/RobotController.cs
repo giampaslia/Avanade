@@ -10,6 +10,8 @@ namespace Avanade.Controllers
         private readonly int MaxSecuencyLenght = 100;
         private readonly List<char> ValidOrientationList = new() { 'n', 's', 'w', 'e' };
         private readonly List<char> ValidSecuencyList = new() { 'l', 'r', 'f' };
+        private readonly List<char> YesOrNoList = new List<char>() { 'y', 'n' };
+
         public Robot Create(List<Robot> robots)
         {
             Console.Clear();
@@ -28,19 +30,43 @@ namespace Avanade.Controllers
         {
             Console.Clear();
             Console.WriteLine("Introduzca el id del robot a eliminar");
-            int id = int.Parse(Console.ReadLine());
+            Robot robot = FindRobot(robots);
 
-            Robot robot = robots.Find(x => x.Id == id);
             if (robot != null)
             {
-                robots.Remove(robot);
+                robots.Remove(FindRobot(robots));
                 Console.WriteLine("Se ha eliminado el robot con éxito");
+            }
+        }
+
+        public void Edit(List<Robot> robots)
+        {
+            Robot robot = FindRobot(robots);
+
+            Console.WriteLine("¿Desea ver los datos del robot antes de editarlos? (escriba \"Y\" or \"N\" ");
+            char res = char.Parse(Console.ReadLine().ToLower());
+            while (!YesOrNoList.Contains(res))
+            {
+                Console.WriteLine("¿Desea ver los datos del robot antes de editarlos? (escriba \"Y\" or \"N\" ");
+                res = char.Parse(Console.ReadLine().ToLower());
+            }
+
+            if (res.Equals('y'))
+            {
+                RobotsList(new List<Robot>() { robot });
+            }
+
+            if (!robot.Lost)
+            {
+                WriteCoordinates(robot);
+                WriteSecuency(robot);
+                WriteOrientation(robot);
             }
             else
             {
-                Console.WriteLine("No existe ningún robot con ese id, " +
-                    "para ver los id de los robots existentes vaya a listado de robots");
+                Console.WriteLine("No se pueden editar los datos de un robot perdido");
             }
+
         }
 
         public void RobotsList(List<Robot> robots)
@@ -172,6 +198,27 @@ namespace Avanade.Controllers
             }
 
             robot.Orientation = orientation;
+        }
+
+        public Robot FindRobot(List<Robot> robots)
+        {
+            Console.Clear();
+            Console.WriteLine("Introduzca el id del robot");
+            int id = int.Parse(Console.ReadLine());
+
+            Robot robot = robots.Find(x => x.Id == id);
+            if (robot == null)
+            {
+                Console.WriteLine("No existe ningún robot con ese id, " +
+                    "para ver los id de los robots existentes vaya a listado de robots");
+            }
+
+            return robot;
+        }
+
+        public void NumberValidate()
+        {
+
         }
     }
 }
