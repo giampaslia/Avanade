@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Avanade.Models
 {
@@ -26,6 +21,6 @@ namespace Avanade.Models
 
         [Required]
         [Column(TypeName = "Bool")]
-        public string Lost { get; set; }
+        public bool Lost { get; set; }
     }
 }

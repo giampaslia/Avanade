@@ -1,10 +1,7 @@
-﻿using System;
-using System.Web;
-
-namespace Avanade.Controllers
+﻿namespace Avanade.Controllers
 {
-    public class MoveController : IMoveController
+    public class MoveController
     {
-        
+
     }
 }
