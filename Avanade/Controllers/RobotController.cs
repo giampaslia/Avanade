@@ -24,6 +24,25 @@ namespace Avanade.Controllers
             return robot;
         }
 
+        public void Remove(List<Robot> robots)
+        {
+            Console.Clear();
+            Console.WriteLine("Introduzca el id del robot a eliminar");
+            int id = int.Parse(Console.ReadLine());
+
+            Robot robot = robots.Find(x => x.Id == id);
+            if (robot != null)
+            {
+                robots.Remove(robot);
+                Console.WriteLine("Se ha eliminado el robot con éxito");
+            }
+            else
+            {
+                Console.WriteLine("No existe ningún robot con ese id, " +
+                    "para ver los id de los robots existentes vaya a listado de robots");
+            }
+        }
+
         public void RobotsList(List<Robot> robots)
         {
             Console.Clear();

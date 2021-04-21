@@ -36,10 +36,8 @@ namespace Avanade.Controllers
                     break;
                 default:
                     Console.WriteLine("La opción no es valida, " +
-                        "las opciones validas son los números \"0\" \"1\" \"2\" \"3\"" +
-                        ". Pulse cualquier tecla para continuar");
-                    Console.ReadKey();
-                    MenuPrincipal();
+                        "las opciones validas son los números \"0\" \"1\" \"2\" \"3\"");
+                    VolverMenuPrincipal();
                     break;
             }
         }
@@ -49,7 +47,6 @@ namespace Avanade.Controllers
             Console.Clear();
             RobotController robot = new();
             Console.WriteLine("Elija una opción");
-            //Console.WriteLine("\t1 - Instrucciones");
             Console.WriteLine("\t1 - Crear robot");
             Console.WriteLine("\t2 - Eliminar robot");
             Console.WriteLine("\t3 - Editar robot");
@@ -61,16 +58,13 @@ namespace Avanade.Controllers
                 case "0":
                     MenuPrincipal();
                     break;
-                //case "1":
-                //    LeerInstruccionesRobots();
-                //    VolverMenuRobots();
-                //    break;
                 case "1":
                     robots.Add(robot.Create(robots));
-                    MenuRobots();
+                    VolverMenuRobots();
                     break;
                 case "2":
-                    Console.WriteLine("Aun no implementado");
+                    robot.Remove(robots);
+                    VolverMenuRobots();
                     break;
                 case "3":
                     Console.WriteLine("Aun no implementado");
