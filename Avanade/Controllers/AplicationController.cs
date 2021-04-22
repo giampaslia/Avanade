@@ -67,7 +67,8 @@ namespace Avanade.Controllers
                     VolverMenuRobots();
                     break;
                 case "3":
-                    Console.WriteLine("Aun no implementado");
+                    robot.Edit(robots);
+                    VolverMenuRobots();
                     break;
                 case "4":
                     robot.RobotsList(robots);
@@ -120,25 +121,6 @@ namespace Avanade.Controllers
                 "perderá todos los datos introducidos.");
         }
 
-        public void LeerInstruccionesRobots()
-        {
-            Console.Clear();
-
-            Console.WriteLine("Estas son las instrucciones del menú de los robots");
-
-            Console.WriteLine("Los menús, constaran de varias opciones, para elegir una opción " +
-                "se debe escribir el número de la opción y pulsar la tecla de \"Enter\".");
-
-
-            Console.WriteLine("Si selecciona la opción \"Salir\" saldrá de la aplicación y perderá" +
-                " todos los datos introducidos.");
-
-            Console.WriteLine("\nPulse cualquier carácter para volver al menú de los robots.");
-            Console.ReadKey();
-            Console.Clear();
-            MenuPrincipal();
-        }
-
-        #endregion              
+        #endregion
     }
 }

@@ -7,10 +7,17 @@ namespace Avanade.Controllers
 {
     class RobotController
     {
+        #region const
+
         private readonly int MaxSecuencyLenght = 100;
-        private readonly List<char> ValidOrientationList = new() { 'n', 's', 'w', 'e' };
+        private readonly List<string> ValidOrientationList = new() { "n", "s", "w", "e" };
         private readonly List<char> ValidSecuencyList = new() { 'l', 'r', 'f' };
-        private readonly List<char> YesOrNoList = new List<char>() { 'y', 'n' };
+        private readonly List<string> YesOrNoList = new() { "y", "n" };
+        private readonly List<char> numberList = new() { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+
+        #endregion
+
+        #region CRUD
 
         public Robot Create(List<Robot> robots)
         {
@@ -34,7 +41,6 @@ namespace Avanade.Controllers
 
             if (robot != null)
             {
-                robots.Remove(FindRobot(robots));
                 Console.WriteLine("Se ha eliminado el robot con éxito");
             }
         }
@@ -42,33 +48,41 @@ namespace Avanade.Controllers
         public void Edit(List<Robot> robots)
         {
             Robot robot = FindRobot(robots);
+            if (robot != null)
+            {
+                Console.WriteLine("¿Desea ver los datos del robot antes de editarlos? (escriba \"Y\" or \"N\" )");
+                string res = Console.ReadLine().ToLower();
+                while (!YesOrNoList.Contains(res))
+                {
+                    Console.Clear();
+                    Console.WriteLine("¿Desea ver los datos del robot antes de editarlos? (escriba \"Y\" or \"N\" )");
+                    res = Console.ReadLine().ToLower();
+                }
 
-            Console.WriteLine("¿Desea ver los datos del robot antes de editarlos? (escriba \"Y\" or \"N\" ");
-            char res = char.Parse(Console.ReadLine().ToLower());
-            while (!YesOrNoList.Contains(res))
-            {
-                Console.WriteLine("¿Desea ver los datos del robot antes de editarlos? (escriba \"Y\" or \"N\" ");
-                res = char.Parse(Console.ReadLine().ToLower());
-            }
+                if (res.Equals("y"))
+                {
+                    RobotsList(new List<Robot>() { robot });
+                    Console.WriteLine("Pulse cualquier carácter para continuar la edición del robot");
+                    Console.ReadKey();
+                }
 
-            if (res.Equals('y'))
-            {
-                RobotsList(new List<Robot>() { robot });
-            }
-
-            if (!robot.Lost)
-            {
-                WriteCoordinates(robot);
-                WriteSecuency(robot);
-                WriteOrientation(robot);
-            }
-            else
-            {
-                Console.WriteLine("No se pueden editar los datos de un robot perdido");
+                if (!robot.Lost)
+                {
+                    WriteCoordinates(robot);
+                    WriteSecuency(robot);
+                    WriteOrientation(robot);
+                }
+                else
+                {
+                    Console.WriteLine("No se pueden editar los datos de un robot perdido");
+                }
             }
 
         }
 
+        #endregion
+
+        #region suport methods
         public void RobotsList(List<Robot> robots)
         {
             Console.Clear();
@@ -100,7 +114,9 @@ namespace Avanade.Controllers
                 if (robot.Lost)
                 {
                     Console.WriteLine("El id del robot es : " + robot.Id +
-                     ", sus coordenadas son desconocidas, el robot se ha perdido");
+                     ", sus coordenadas son desconocidas, el robot se ha perdido, " +
+                     "sus ultimas coordenadas conocidas fueron: (" + robot.Coordinate.X
+                     + "," + robot.Coordinate.Y + "), " + orientacion);
                 }
                 else
                 {
@@ -128,29 +144,40 @@ namespace Avanade.Controllers
             Console.Clear();
             Coordinates coordinates = new();
             robot.Coordinate = coordinates;
+            WriteCoordinateX(robot);
+            WriteCoordinateY(robot);
+        }
 
+        public void WriteCoordinateX(Robot robot)
+        {
+            Console.Clear();
             Console.WriteLine("Introduzca coordenada X (deben ser un números entre 0 y 50)");
-            int x = int.Parse(Console.ReadLine());
-            while (x < 0 || x > 50)
+            string x = Console.ReadLine();
+
+            while (!CoordinateValidate(x))
             {
                 Console.Clear();
                 Console.WriteLine("Introduzca coordenada X (deben ser un números entre 0 y 50)");
-                x = int.Parse(Console.ReadLine());
+                x = Console.ReadLine();
             }
 
-            robot.Coordinate.X = x;
+            robot.Coordinate.X = int.Parse(x);
+        }
 
-
+        public void WriteCoordinateY(Robot robot)
+        {
+            Console.Clear();
             Console.WriteLine("Introduzca coordenada Y (deben ser un números entre 0 y 50)");
-            int y = int.Parse(Console.ReadLine());
-            while (y < 0 || y > 50)
+            string y = Console.ReadLine();
+
+            while (!CoordinateValidate(y))
             {
                 Console.Clear();
                 Console.WriteLine("Introduzca coordenada Y (deben ser un números entre 0 y 50)");
-                y = int.Parse(Console.ReadLine());
+                y = Console.ReadLine();
             }
 
-            robot.Coordinate.Y = y;
+            robot.Coordinate.Y = int.Parse(y);
         }
 
         public void WriteSecuency(Robot robot)
@@ -163,17 +190,14 @@ namespace Avanade.Controllers
 
             string secuency = Console.ReadLine().ToLower();
 
-            if (secuency.Length > MaxSecuencyLenght)
+            while (!ValidSecuency(secuency))
             {
-                WriteSecuency(robot);
-            }
+                Console.Clear();
+                Console.WriteLine("Introduzca la secuencia " +
+                "(la secuencia es un string formado unicamente por" +
+                " las letras \"L \"  \"R \"  \"F \", debe ser menor a 100 caracteres");
 
-            foreach (Char character in secuency)
-            {
-                if (!ValidSecuencyList.Contains(character))
-                {
-                    WriteSecuency(robot);
-                }
+                secuency = Console.ReadLine().ToLower();
             }
 
             robot.Secuency = secuency;
@@ -186,15 +210,12 @@ namespace Avanade.Controllers
                 "(La orientación esta formada por 1 carácter \"N\"  \"S\"  \"E\"  \"W\" )");
 
             string orientation = Console.ReadLine().ToLower();
-
-            if (orientation.Length > 1)
+            while (!ValidOrientation(orientation))
             {
-                WriteOrientation(robot);
-            }
-
-            if (!ValidOrientationList.Contains(char.Parse(orientation)))
-            {
-                WriteOrientation(robot);
+                Console.Clear();
+                Console.WriteLine("Introduzca la Orientación " +
+                "(La orientación esta formada por 1 carácter \"N\"  \"S\"  \"E\"  \"W\" )");
+                orientation = Console.ReadLine().ToLower();
             }
 
             robot.Orientation = orientation;
@@ -203,8 +224,17 @@ namespace Avanade.Controllers
         public Robot FindRobot(List<Robot> robots)
         {
             Console.Clear();
+
             Console.WriteLine("Introduzca el id del robot");
-            int id = int.Parse(Console.ReadLine());
+            string idString = Console.ReadLine();
+            while (!IsNumber(idString))
+            {
+                Console.Clear();
+                Console.WriteLine("Introduzca el id del robot (debe ser un número)");
+                idString = Console.ReadLine();
+            }
+
+            int id = int.Parse(idString);
 
             Robot robot = robots.Find(x => x.Id == id);
             if (robot == null)
@@ -216,9 +246,81 @@ namespace Avanade.Controllers
             return robot;
         }
 
-        public void NumberValidate()
-        {
+        #endregion
 
+        #region methods to validations
+
+        public bool CoordinateValidate(string number)
+        {
+            bool isValidCoordinate = true;
+
+            if (!IsNumber(number))
+            {
+                isValidCoordinate = false;
+            }
+
+            if (isValidCoordinate && int.Parse(number) < 0)
+            {
+                isValidCoordinate = false;
+            }
+
+            if (isValidCoordinate && int.Parse(number) > 50)
+            {
+                isValidCoordinate = false;
+
+            }
+
+            return isValidCoordinate;
         }
+
+        public bool IsNumber(string number)
+        {
+            bool isNumber = true;
+
+            try
+            {
+                int.Parse(number);
+            }
+            catch (Exception)
+            {
+                isNumber = false;
+            }
+
+            return isNumber;
+        }
+
+        public bool ValidOrientation(string orientation)
+        {
+            bool isValidOrientation = true;
+
+            if (!ValidOrientationList.Contains(orientation))
+            {
+                isValidOrientation = false;
+            }
+
+            return isValidOrientation;
+        }
+
+        public bool ValidSecuency(string secuency)
+        {
+            bool isValidSecuency = true;
+
+            if (secuency.Length > MaxSecuencyLenght)
+            {
+                isValidSecuency = false;
+            }
+
+            foreach (Char character in secuency)
+            {
+                if (!ValidSecuencyList.Contains(character))
+                {
+                    isValidSecuency = false;
+                }
+            }
+
+            return isValidSecuency;
+        }
+        #endregion
+
     }
 }
