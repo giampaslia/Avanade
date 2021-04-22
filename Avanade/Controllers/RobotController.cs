@@ -83,7 +83,7 @@ namespace Avanade.Controllers
         #endregion
 
         #region suport methods
-        public void RobotsList(List<Robot> robots)
+        private void RobotsList(List<Robot> robots)
         {
             Console.Clear();
             Console.WriteLine("Hay " + robots.Count + " robots");
@@ -127,7 +127,7 @@ namespace Avanade.Controllers
             }
         }
 
-        public void WriteId(List<Robot> robots, Robot robot)
+        private void WriteId(List<Robot> robots, Robot robot)
         {
             if (robots.Count != 0)
             {
@@ -139,7 +139,7 @@ namespace Avanade.Controllers
             }
         }
 
-        public void WriteCoordinates(Robot robot)
+        private void WriteCoordinates(Robot robot)
         {
             Console.Clear();
             Coordinates coordinates = new();
@@ -148,7 +148,7 @@ namespace Avanade.Controllers
             WriteCoordinateY(robot);
         }
 
-        public void WriteCoordinateX(Robot robot)
+        private void WriteCoordinateX(Robot robot)
         {
             Console.Clear();
             Console.WriteLine("Introduzca coordenada X (deben ser un números entre 0 y 50)");
@@ -164,7 +164,7 @@ namespace Avanade.Controllers
             robot.Coordinate.X = int.Parse(x);
         }
 
-        public void WriteCoordinateY(Robot robot)
+        private void WriteCoordinateY(Robot robot)
         {
             Console.Clear();
             Console.WriteLine("Introduzca coordenada Y (deben ser un números entre 0 y 50)");
@@ -180,7 +180,7 @@ namespace Avanade.Controllers
             robot.Coordinate.Y = int.Parse(y);
         }
 
-        public void WriteSecuency(Robot robot)
+        private void WriteSecuency(Robot robot)
         {
             Console.Clear();
 
@@ -203,7 +203,7 @@ namespace Avanade.Controllers
             robot.Secuency = secuency;
         }
 
-        public void WriteOrientation(Robot robot)
+        private void WriteOrientation(Robot robot)
         {
             Console.Clear();
             Console.WriteLine("Introduzca la Orientación " +
@@ -221,7 +221,7 @@ namespace Avanade.Controllers
             robot.Orientation = orientation;
         }
 
-        public Robot FindRobot(List<Robot> robots)
+        private Robot FindRobot(List<Robot> robots)
         {
             Console.Clear();
 
@@ -250,7 +250,7 @@ namespace Avanade.Controllers
 
         #region methods to validations
 
-        public bool CoordinateValidate(string number)
+        private bool CoordinateValidate(string number)
         {
             bool isValidCoordinate = true;
 
@@ -273,7 +273,7 @@ namespace Avanade.Controllers
             return isValidCoordinate;
         }
 
-        public bool IsNumber(string number)
+        private bool IsNumber(string number)
         {
             bool isNumber = true;
 
@@ -289,7 +289,7 @@ namespace Avanade.Controllers
             return isNumber;
         }
 
-        public bool ValidOrientation(string orientation)
+        private bool ValidOrientation(string orientation)
         {
             bool isValidOrientation = true;
 
@@ -301,7 +301,7 @@ namespace Avanade.Controllers
             return isValidOrientation;
         }
 
-        public bool ValidSecuency(string secuency)
+        private bool ValidSecuency(string secuency)
         {
             bool isValidSecuency = true;
 

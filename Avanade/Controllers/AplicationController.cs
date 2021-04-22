@@ -8,6 +8,7 @@ namespace Avanade.Controllers
     {
         #region variables
         public static List<Robot> robots = new();
+        public static List<Coordinates> lostRobots = new();
         #endregion
 
         #region menús
@@ -32,7 +33,8 @@ namespace Avanade.Controllers
                     MenuRobots();
                     break;
                 case "3":
-                    Console.WriteLine("Comenzar secuencias aun no esta implementado");
+                    MoveController secuency = new();
+                    secuency.Start(robots, lostRobots);
                     break;
                 default:
                     Console.WriteLine("La opción no es valida, " +
