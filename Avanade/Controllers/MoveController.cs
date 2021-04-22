@@ -8,10 +8,18 @@ namespace Avanade.Controllers
     {
         public void Start(List<Robot> robots, List<Coordinates> lostRobots)
         {
+            Console.Clear();
+            if (robots.Count == 0)
+            {
+                Console.WriteLine("No hay ningún robot existente," +
+                    " cree algunos robots antes de comenzar las secuencias");
+            }
+
             foreach (Robot robot in robots)
             {
                 Move(robot, lostRobots);
             }
+
         }
 
         private void Move(Robot robot, List<Coordinates> lostRobots)
@@ -20,8 +28,8 @@ namespace Avanade.Controllers
             {
                 if (!robot.Lost)
                 {
-                    EjecuteOrder(order, robot, lostRobots);
                     RobotPosition(robot);
+                    EjecuteOrder(order, robot, lostRobots);
                 }
             }
             RobotPosition(robot);
@@ -30,7 +38,7 @@ namespace Avanade.Controllers
         private void RobotPosition(Robot robot)
         {
             string orientation = string.Empty;
-            string text = string.Empty;
+            string text = "El robot " + robot.Id;
 
             switch (robot.Orientation)
             {
@@ -50,7 +58,7 @@ namespace Avanade.Controllers
 
             if (!robot.Lost)
             {
-                text += "El robot se encuentra en las coordenadas (";
+                text += " se encuentra en las coordenadas (";
                 text += robot.Coordinate.X;
                 text += ",";
                 text += robot.Coordinate.Y;
@@ -59,7 +67,7 @@ namespace Avanade.Controllers
             }
             else
             {
-                text += "El robot esta perdido, sus ultimas coordenadas fueron (";
+                text += " esta perdido, sus ultimas coordenadas fueron (";
                 text += robot.Coordinate.X;
                 text += ",";
                 text += robot.Coordinate.Y;
@@ -82,6 +90,10 @@ namespace Avanade.Controllers
                     break;
                 case 'f':
                     AvanceToFront(robot, lostRobots);
+                    if (robot.Lost)
+                    {
+                        lostRobots.Add(robot.Coordinate);
+                    }
                     break;
                 default:
                     Console.WriteLine("Ups algo fue mal");

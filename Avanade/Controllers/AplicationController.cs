@@ -35,6 +35,7 @@ namespace Avanade.Controllers
                 case "3":
                     MoveController secuency = new();
                     secuency.Start(robots, lostRobots);
+                    VolverMenuPrincipal();
                     break;
                 default:
                     Console.WriteLine("La opción no es valida, " +

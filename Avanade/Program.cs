@@ -7,7 +7,6 @@ namespace Avanade
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("¡Bienvenido a Robots Marcianos!");
             AplicationController aplication = new();
             aplication.MenuPrincipal();
         }

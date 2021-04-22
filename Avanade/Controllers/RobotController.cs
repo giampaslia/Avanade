@@ -83,7 +83,7 @@ namespace Avanade.Controllers
         #endregion
 
         #region suport methods
-        private void RobotsList(List<Robot> robots)
+        public void RobotsList(List<Robot> robots)
         {
             Console.Clear();
             Console.WriteLine("Hay " + robots.Count + " robots");
