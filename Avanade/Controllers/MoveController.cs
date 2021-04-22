@@ -40,7 +40,7 @@ namespace Avanade.Controllers
             string orientation = string.Empty;
             string text = "El robot " + robot.Id;
 
-            switch (robot.Orientation)
+            switch (robot.Coordinate.Orientation)
             {
                 case "n":
                     orientation = "Norte";
@@ -103,7 +103,7 @@ namespace Avanade.Controllers
 
         private void AvanceToFront(Robot robot, List<Coordinates> lostRobots)
         {
-            switch (robot.Orientation)
+            switch (robot.Coordinate.Orientation)
             {
                 case "n":
                     if (!CompareCoordinates(robot.Coordinate, lostRobots))
@@ -139,19 +139,19 @@ namespace Avanade.Controllers
         {
             if (!robot.Lost)
             {
-                switch (robot.Orientation)
+                switch (robot.Coordinate.Orientation)
                 {
                     case "n":
-                        robot.Orientation = "e";
+                        robot.Coordinate.Orientation = "e";
                         break;
                     case "e":
-                        robot.Orientation = "s";
+                        robot.Coordinate.Orientation = "s";
                         break;
                     case "s":
-                        robot.Orientation = "w";
+                        robot.Coordinate.Orientation = "w";
                         break;
                     case "w":
-                        robot.Orientation = "n";
+                        robot.Coordinate.Orientation = "n";
                         break;
                     default:
                         Console.WriteLine("Ups algo fue mal");
@@ -164,19 +164,19 @@ namespace Avanade.Controllers
         {
             if (!robot.Lost)
             {
-                switch (robot.Orientation)
+                switch (robot.Coordinate.Orientation)
                 {
                     case "n":
-                        robot.Orientation = "w";
+                        robot.Coordinate.Orientation = "w";
                         break;
                     case "e":
-                        robot.Orientation = "n";
+                        robot.Coordinate.Orientation = "n";
                         break;
                     case "s":
-                        robot.Orientation = "e";
+                        robot.Coordinate.Orientation = "e";
                         break;
                     case "w":
-                        robot.Orientation = "s";
+                        robot.Coordinate.Orientation = "s";
                         break;
                     default:
                         Console.WriteLine("Ups algo fue mal");
@@ -243,7 +243,9 @@ namespace Avanade.Controllers
 
             foreach (Coordinates c in lostRobots)
             {
-                if (coordinate.X == c.X && coordinate.Y == c.Y)
+                if (coordinate.X == c.X
+                    && coordinate.Y == c.Y
+                    && coordinate.Orientation == c.Orientation)
                 {
                     equalsCoordinates = true;
                 }
