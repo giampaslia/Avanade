@@ -16,10 +16,6 @@ namespace Avanade.Models
         public Coordinates Coordinate { get; set; }
 
         [Required]
-        [Column(TypeName = "varchar(1)")]
-        public string Orientation { get; set; }
-
-        [Required]
         [Column(TypeName = "Bool")]
         public bool Lost { get; set; }
     }

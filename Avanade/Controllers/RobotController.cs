@@ -13,7 +13,6 @@ namespace Avanade.Controllers
         private readonly List<string> ValidOrientationList = new() { "n", "s", "w", "e" };
         private readonly List<char> ValidSecuencyList = new() { 'l', 'r', 'f' };
         private readonly List<string> YesOrNoList = new() { "y", "n" };
-        private readonly List<char> numberList = new() { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
 
         #endregion
 
@@ -41,6 +40,7 @@ namespace Avanade.Controllers
 
             if (robot != null)
             {
+                robots.Remove(robot);
                 Console.WriteLine("Se ha eliminado el robot con éxito");
             }
         }
@@ -64,6 +64,7 @@ namespace Avanade.Controllers
                     RobotsList(new List<Robot>() { robot });
                     Console.WriteLine("Pulse cualquier carácter para continuar la edición del robot");
                     Console.ReadKey();
+                    Console.Clear();
                 }
 
                 if (!robot.Lost)
@@ -91,7 +92,7 @@ namespace Avanade.Controllers
             foreach (Robot robot in robots)
             {
                 string orientacion = string.Empty;
-                switch (robot.Orientation)
+                switch (robot.Coordinate.Orientation)
                 {
                     case "n":
                     case "N":
@@ -218,7 +219,7 @@ namespace Avanade.Controllers
                 orientation = Console.ReadLine().ToLower();
             }
 
-            robot.Orientation = orientation;
+            robot.Coordinate.Orientation = orientation;
         }
 
         private Robot FindRobot(List<Robot> robots)

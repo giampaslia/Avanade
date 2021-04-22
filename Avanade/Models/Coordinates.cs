@@ -12,5 +12,9 @@ namespace Avanade.Models
         [Required]
         [Column(TypeName = "varchar(2)")]
         public int Y { get; set; }
+
+        [Required]
+        [Column(TypeName = "varchar(1)")]
+        public string Orientation { get; set; }
     }
 }
